@@ -1,0 +1,19 @@
+
+CNN : 
+   hidden_dim : 512
+   nb_filters : 
+     32
+     64
+     128
+   filters_size : 
+     9
+     9
+     9
+LSTM:  
+units : 
+   128,  
+   512, 
+   128  
+   
+   
+   
