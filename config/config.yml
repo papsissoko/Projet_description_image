@@ -1,6 +1,6 @@
 
 CNN : 
-   hidden_dim : 512
+   
    nb_filters : 
      32
      64
@@ -9,11 +9,10 @@ CNN :
      9
      9
      9
-LSTM:  
-units : 
-   128,  
-   512, 
-   128  
+MyModel : 
+    hidden_dim : 512
+    learning_rate : 1e-4
+    batch_size : 32 
    
    
    

@@ -1,5 +1,26 @@
+# Python  Venv datset 
 *.py[cod]
 dist/
 build/
 .pypoetry/
 archive/**
+.vscode/
+*.pyc
+*.pyo
+
+__pycache__/
+mon_modele_sauvegarde/**
+
+
+# ML 
+*.pt
+*.pth 
+*ckpt
+*.bin 
+*.h5
+*.pkl
+*.keras
+
+# HuggingFace
+.cache/
+huggingface/
