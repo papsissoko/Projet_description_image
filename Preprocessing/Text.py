@@ -1,5 +1,4 @@
 import numpy  as np  
-import  matplotlib.pyplot as plt 
 from loading.load_data import loader
 
 #caption, _ ,  _ = loader ( r"archive",  "captions.txt" , "Images" )

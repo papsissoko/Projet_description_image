@@ -32,31 +32,30 @@ try :
         inv_dic = {v: k for k, v in word_index.items()} # on veut {token: mot} pour pouvoir faire un get  dessus
 
 except FileNotFoundError : 
-    print("Veuillez lancer run.py  pour générer le fichier")
     sys.exit(1)
 
 
 
-my_model =tf.keras.models.load_model("mon_modele.keras")
+my_model = tf.keras.models.load_model("mon_modele.keras", compile=False)
 
 # Chargement et prétraitement de l'image
-image_test =np.array(Image.open(r"C:\Users\papch\project1\archive\Images\3767841911_6678052eb6.jpg"))
+image_test =np.array(Image.open(r"archive\Images\2599903773_0f724d8f63.jpg"))
 image_processed = preprocesser(image_test)
 
 text_input = ["<start>"] # On commence avec la balise de début
 final_caption = []
 print( "génération de la description en cours ...")
 
-for i in  range(max_len) : 
+for i in range(max_len - 1): 
     seq =[word_index.get(word,0) for word in text_input]
-    seq_padded = pad_sequences([seq], maxlen=max_len, padding='post')
+    seq_padded = pad_sequences([seq], maxlen=max_len - 1, padding='post')
     prediction = my_model.predict([image_processed, seq_padded], verbose=0)
     mot_predit = np.argmax(prediction[0,i,:])
     mot = inv_dic.get(mot_predit,"")
-    print(prediction.shape, len(word_index))
     if mot == "<end>" or mot == "": 
         break
     text_input.append(mot)
+    print(mot)
     final_caption.append(mot)
 
 print("Description générée : " + " ".join(final_caption))

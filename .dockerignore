@@ -1,0 +1,30 @@
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environnements virtuels
+.venv/
+
+# Modèles sauvegardés
+*.keras
+*.pkl
+*.h5
+*.weights
+*.ckpt
+saved_model/
+mon_modele_sauvegarde/
+
+
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# IDE
+.vscode/

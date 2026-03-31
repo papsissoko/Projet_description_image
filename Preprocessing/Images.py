@@ -1,13 +1,11 @@
 import  os 
 #from loading.load_data import  loader
-import matplotlib.pyplot as plt
 
 import tensorflow as tf 
 from  tensorflow import  keras 
 from  tensorflow.keras.models import  Sequential
 from tensorflow.keras.layers import Resizing, Rescaling , InputLayer
 from  tensorflow.keras import Model
-import matplotlib.pyplot as plt 
 import sys
 
 class preprocesser(Model) :  
@@ -44,7 +42,6 @@ if __name__ == "__main__" :
     image_0 = next(iter(images))
     image_preprocessed = image_preprocesser(image_0)    
     image_preprocessed_0 = image_preprocessed[0]
-    print(f"l'image est de shape {image_preprocessed_0.shape} ,  et  de min  :  {tf.reduce_min(image_preprocessed_0)} ,  et de max :  {tf.reduce_max(image_preprocessed_0)}, et de moy {tf.reduce_mean(image_preprocessed_0)}")
     plt.imshow(image_preprocessed_0.numpy())
     plt.show()
 """
