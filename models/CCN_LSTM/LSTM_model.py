@@ -2,12 +2,21 @@ import  tensorflow as tf
 from tensorflow import  keras 
 from tensorflow.keras.models import Sequential , Model
 from  tensorflow.keras.layers import LSTM, Input
-from utils.Tokenizer import tokenization
 import  yaml  
+import os
+import sys
+     
+project_root = os.path.abspath(os.path.join(os.getcwd(), ".."))
+sys.path.append(r"C:\Users\papch\project1")
+if not project_root in  sys.path :  
+    sys.path.append(project_root)
+
+from utils.Tokenizer import tokenization
+
 
 @tf.keras.utils.register_keras_serializable(package="Custom")
 class LSTM_model(Model) : 
-    def __init__(self ,  model_params_path :  str ="config\config.yml", **kwargs) : 
+    def __init__(self ,  model_params_path :  str ="config/config.yml", **kwargs) : 
         super().__init__(**kwargs)
         #self.sequences = tokenization()
         self.LSTM_model = Sequential()
@@ -27,3 +36,8 @@ class LSTM_model(Model) :
 
         
     
+if __name__ =="__main__" :
+    
+    Lstm_model = LSTM_model()
+    Lstm_model.LSTM_model.summary()
+     

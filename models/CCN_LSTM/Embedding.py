@@ -21,7 +21,8 @@ class Embedder( Model) :
             "out_dim" : self.out_dim
 
         })
+        
         return config 
-    def call(self,  x) :  
+    def call(self,  x) : 
         return self.embedder(x)
     

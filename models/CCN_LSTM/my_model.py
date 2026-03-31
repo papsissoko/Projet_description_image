@@ -59,9 +59,14 @@ class Mymodel(Model) :
     def call(self, inputs) : 
         images , sequences= inputs[0], inputs[1]
         images =  images
-        h_t , c_t = self.cnn_model(images)
+        h_t , c_t,  feature_map= self.cnn_model(images)
+        feature_map = tf.reduce_mean(feature_map, axis=[1,2])
+        seq_len= tf.shape(sequences)[1]
         text_embedded = self.embedder(sequences)
-        x_pred= self.LSTM_model(text_embedded, initial_state= [h_t,c_t])
+        image_repeated = tf.repeat(feature_map[:, tf.newaxis, :], repeats=seq_len, axis=1)
+#                         
+        lstm_input = tf.concat([text_embedded, image_repeated], axis=-1)
+        x_pred= self.LSTM_model(lstm_input, initial_state= [h_t,c_t])
         x_pred = self.classifier(x_pred)
         return x_pred
         
