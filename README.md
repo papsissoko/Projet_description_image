@@ -1,3 +1,5 @@
+![Status](https://img.shields.io/badge/status-in%20development-yellow)
+
 Ce  petit projet est une impléméntation  d'une technique pour la description  des images. 
 
 
