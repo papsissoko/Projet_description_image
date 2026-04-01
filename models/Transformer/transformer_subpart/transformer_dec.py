@@ -9,7 +9,7 @@ from  keras_nlp.layers import  SinePositionEncoding
 
 
 
-from loading.load_data import  loader
+from utils.load_data import  loader
 from  utils.Tokenizer import  tokenization
 
 captions,captions_val,  images,  val_images  = loader ( r"archive",  "captions.txt" , "Images" )
@@ -38,9 +38,9 @@ class Trasformer_dec (tf.keras.Model) :
         return config
 
         
-    def  call(self,  tokens_embed_pos:  tf.Tensor) :
+    def  call(self,  tokens_embed_pos:  tf.Tensor, attention_mask) :
         x = self.norm(tokens_embed_pos) 
-        x_att = self.attention(x,x)
+        x_att = self.attention(x,x, attention_mask=attention_mask)
         x_att_norm= self.norm(x_att+x)
         x_feed =  self.feed_forward(x_att_norm)
         return  x_feed

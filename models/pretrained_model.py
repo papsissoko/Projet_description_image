@@ -9,7 +9,7 @@ project_root = os.path.abspath(os.path.join(os.getcwd(), ".."))
 sys.path.append(r"C:\Users\papch\project1")
 if not project_root in  sys.path :  
     sys.path.append(project_root)
-from loading.load_data import  loader
+from utils.load_data import  loader
 
 model_name = "nlpconnect/vit-gpt2-image-captioning"
 tokenizer = GPT2Tokenizer.from_pretrained(model_name)
@@ -35,10 +35,8 @@ def generate_captions_training( model : any = model,
     for path in  paths :  
         images = Image.open(path)
         pixel_values =feature_extractor(images=images,return_tensors="pt").pixel_values
-        print(type(model))
         output_ids = model.generate(pixel_values)
         preds =tokenizer.decode(output_ids[0], skip_special_tokens=True)
-        print(preds)
         
     return model
 generate_captions_training(root_path=root_path)

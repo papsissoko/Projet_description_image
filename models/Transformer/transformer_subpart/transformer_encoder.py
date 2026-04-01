@@ -14,6 +14,9 @@ class TransformerEncoderBlock(tf.keras.layers.Layer ) :
         self.mlp1 = Dense(embed_dim*2, activation="relu")
         self.mlp2 = Dense(embed_dim, activation="relu")
         self.Norm_layer = LayerNormalization()
+    
+    def build(self, input_shape):
+        return super().build(input_shape)
 
     def get_config(self):
         config = super().get_config()

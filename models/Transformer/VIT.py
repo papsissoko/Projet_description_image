@@ -3,12 +3,12 @@ from  tensorflow import keras
 from tensorflow.keras.layers import  MultiHeadAttention,Dense
 import  sys 
 sys.path.append("c:\\Users\\papch\\project1")
-from models.Transformer.patcher_imp import test_embd, plot_patch,patchEmbedd
-from models.Transformer.patch_encod import PatchEncoding
-from models.Transformer.transformer_encoder import TransformerEncoderBlock
+from models.Transformer.transformer_subpart.patcher_imp import test_embd, plot_patch,patchEmbedd
+from models.Transformer.transformer_subpart.patch_encod import PatchEncoding
+from models.Transformer.transformer_subpart.transformer_encoder import TransformerEncoderBlock
 #from models.Transformer.classifier import Classifier
-from models.Transformer.transformer_dec import Trasformer_dec
-from models.Transformer.Positional_enc import Positional_enc
+from models.Transformer.transformer_subpart.transformer_dec import Trasformer_dec
+from models.Transformer.transformer_subpart.Positional_enc import Positional_enc
 from models.CCN_LSTM.Embedding import Embedder
 
 
@@ -38,6 +38,8 @@ class VIT(tf.keras.Model) :
         self.out2 = Dense(vocab_size, activation="softmax")
 
 
+
+
     def get_config(self):
         config = super().get_config()
         config.update({
@@ -48,6 +50,15 @@ class VIT(tf.keras.Model) :
             "vocab_size": self.vocab_size
         })
         return config
+    
+
+    def make_mask(self,seq) : 
+        mask_ = 1-tf.linalg.band_part(tf.ones((seq,seq)),-1,0)
+        return mask_
+    
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
 
 
 
@@ -60,8 +71,16 @@ class VIT(tf.keras.Model) :
         patches, _,_= self.patcher(inputs_im)
         patches_encoded =self.patch_enc(patches)
         # premier passage dans le transformeur
+
+        batch_size = tf.shape(tokens)[0]
+        seq_len= tf.shape(tokens)[1]
+        mask = self.make_mask(seq_len)
+        mask = tf.tile(mask[tf.newaxis, :, :], [batch_size, 1, 1])
+
+
+
         patches_attention_score = self.encodeur(patches_encoded)
-        text_attention = self.decodeur(tokens_pos_emb)
+        text_attention = self.decodeur(tokens_pos_emb , attention_mask=mask)
         cross_attention = self.cross_multi_head(text_attention, patches_attention_score)
         cross_attention_norm = self.norm(cross_attention+text_attention)
 
@@ -69,7 +88,7 @@ class VIT(tf.keras.Model) :
 
         for i in  range(self.nb_block) : 
             patches_attention_score = self.encodeur(patches_encoded)
-            text_attention = self.decodeur(cross_attention_norm)
+            text_attention = self.decodeur(cross_attention_norm, attention_mask=mask)
             cross_attention = self.cross_multi_head(text_attention, patches_attention_score)
             cross_attention_norm = self.norm(cross_attention+text_attention)
 

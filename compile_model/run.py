@@ -9,7 +9,7 @@ import tensorflow as tf
 from tensorflow.keras.optimizers import Adam
 
 
-from loading.load_data import  loader
+from utils.load_data import  loader
 from  utils.Tokenizer import  tokenization
 from models.my_model import Mymodel
 from  models.CNN_model import CNN_layer
@@ -77,8 +77,10 @@ if __name__ == "__main__":
         pickle.dump({"word_index": word_index, "max_len": max_len, "tokens_padded": tokens}, f)
     print("Données du tokenizer sauvegardées dans tokenizer_data.pkl")
     
-
+"""
     with tf.device('/GPU:0'):
            my_model.fit(x=[images_array,text_in_ds],y=text_out_ds, epochs=30,batch_size=batch_size,  validation_data=([images_val_array,text_in_ds_val],text_out_ds_val))
            my_model.save("mon_modele.keras")
            print("Modèle sauvegardé.")
+
+"""
