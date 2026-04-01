@@ -12,5 +12,5 @@ class Positional_enc( tf.keras.layers.Layer) :
         config = super().get_config()
         return config
 
-    def call(self, embedder_output) :  
+    def call(self, embedder_output, mask=None) :  
         return self.postional_enc(embedder_output)
