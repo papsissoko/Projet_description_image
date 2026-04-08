@@ -19,7 +19,7 @@ import  tensorflow as tf
 preprocesser =preprocesser()
 
 
-captions,captions_val,  images,  val_images  = loader ( r"All_archive",  "captions.txt" , "Images" )
+captions,captions_val,  images,  val_images  = loader ( r"archive",  "All_captions.txt" , "Images" )
 
 
 data = pickle.load(open("tokens/tokenizer_data_train.pkl", "rb"))
@@ -44,6 +44,6 @@ with tf.device('/GPU:0') :
                  loss=mask_loss,
                    metrics=[mask_accuracy],
                    ) 
-    vit.fit(dataset_train,epochs=5)#, batch_size=32)
+    vit.fit(dataset_train,epochs=1)#, batch_size=32)
 
 vit.save("transformer.keras")

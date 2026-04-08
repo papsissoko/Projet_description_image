@@ -11,14 +11,14 @@ from  keras_nlp.layers import  SinePositionEncoding
 
 from utils.load_data import  loader
 from  utils.Tokenizer import  tokenization
-
+"""
 captions,captions_val,  images,  val_images  = loader ( r"archive",  "captions.txt" , "Images" )
 
 
 tokens, word_index, max_len = tokenization(caption=captions)
 tokens_val, word_index_val, max_len_val = tokenization(caption=captions_val)
 vocab_size = len(word_index) + 1
-
+"""
 
 @tf.keras.utils.register_keras_serializable(package="Custom")
 class Trasformer_dec (tf.keras.Model) : 
