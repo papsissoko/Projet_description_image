@@ -61,14 +61,17 @@ def loader( folder, caption_path, images_folder, val_split : int = 0.2  ) :
           except : 
                i+=1
     assert(len(caption)== len(captions_paths)), " Desynchronisation  entre la taille de l'image et de ses captions"
-    print( f"{i} images ont été ignorées car les données sont mal formées")
+    
+    if i>0: 
+          print( f"{i} images ont été ignorées car les données sont mal formées")
           
     
     captions_dict = {x:y for x,y in zip(captions_paths,caption)}
 
-
-    caption_train = [captions_dict[x] for x in paths]
-    caption_val = [captions_dict[x] for x in val_paths]
+    
+    caption_train = [captions_dict[x] for x in captions_paths]
+    #caption_val = [captions_dict[x] for x in val_paths]
+    caption_val = []
 
 
     return caption_train,caption_val ,  train_images  , val_images
