@@ -6,7 +6,7 @@ import  os
 
 def dump_tokens_pkl () : 
     
-    captions,_,_,_  = loader ( r"archive",  "captions.txt" , "Images" )
+    captions,_,_,_  = loader ( r"archive",  "All_captions.txt" , "Images" )
     tokens, word_index, max_len = tokenization(caption=captions)
     tokens_val, word_index_val, max_len_val = tokenization(caption=captions)
     vocab_size = len(word_index) + 1
