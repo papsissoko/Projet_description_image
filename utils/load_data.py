@@ -22,7 +22,7 @@ def loader( folder, caption_path, images_folder, val_split : int = 0.2  ) :
         subset ="training", 
         seed =42,
         label_mode = None,
-        shuffle= False  # il faut absolument le mettre à false car images.file_paths n'est pas mélangé. 
+        shuffle= False  
         
     )
 
@@ -33,7 +33,7 @@ def loader( folder, caption_path, images_folder, val_split : int = 0.2  ) :
         subset ="validation", 
         seed =42,
         label_mode = None,
-        shuffle= False  # il faut absolument le mettre à false car images.file_paths n'est pas mélangé. 
+        shuffle= False 
         
     )
     try: 
@@ -49,8 +49,20 @@ def loader( folder, caption_path, images_folder, val_split : int = 0.2  ) :
 
 
     captions_list = file.strip().split('\n')[1:] 
-    captions_paths = [l.split(',', 1)[0] for l in captions_list]
-    caption   = [l.split(',', 1)[1] for l in captions_list]
+
+    caption = []
+    captions_paths = []
+    i=0
+    for cap  in  captions_list : 
+          try :
+                parts = cap.split(',',1)
+                caption.append(parts[1])
+                captions_paths.append(parts[0])
+          except : 
+               i+=1
+    assert(len(caption)== len(captions_paths)), " Desynchronisation  entre la taille de l'image et de ses captions"
+    print( f"{i} images ont été ignorées car les données sont mal formées")
+          
     
     captions_dict = {x:y for x,y in zip(captions_paths,caption)}
 
@@ -64,6 +76,6 @@ def loader( folder, caption_path, images_folder, val_split : int = 0.2  ) :
 
 if __name__ == "__main__" : 
    import  matplotlib.pyplot as plt 
-   y_train, y_val,  x_train,  x_val= loader ( r"archive",  "captions.txt" , "Images" )
+   y_train, y_val,  x_train,  x_val= loader ( r"archive",  "All_captions.txt" , "Images" )
    plt.imshow(next(iter(x_train))[0])
    plt.show()

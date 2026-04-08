@@ -33,14 +33,13 @@ data = pickle.load(open("tokens/tokenizer_data_train.pkl", "rb"))
 word_index, max_len,tokens = data["word_index"], data["max_len"], data["tokens_padded"]
 vocab_size = len(word_index) + 1
 
-
 inv_dic = {v: k for k, v in word_index.items()} # on veut {token: mot} pour pouvoir faire un get  dessus
 
 
-image_test =tf.convert_to_tensor(Image.open(r"archive\Images\2599903773_0f724d8f63.jpg"))
+image_test =tf.convert_to_tensor(Image.open(r"archive\Images\95734036_bef6d1a871.jpg"))
 image_test = tf.expand_dims(image_test, axis=0)
 
-print(inv_dic)
+
 image_processed = preprocesser()(image_test)
 
 text_input = ["<start>"] # On commence avec la balise de début
@@ -48,17 +47,16 @@ final_caption = []
 print( "génération de la description en cours ...")
 
 for i in range(max_len - 1): 
-    print(i)
     seq =[word_index.get(word,0) for word in text_input]
+    print(seq)
     seq_padded = tf.keras.preprocessing.sequence.pad_sequences([seq], maxlen=max_len - 1, padding='post')
     prediction = my_model.predict([image_processed, seq_padded], verbose=0)
     mot_predit = np.argmax(prediction[0,i,:])
     mot = inv_dic.get(mot_predit,"")
-    print(mot)
-    if mot == "<end>" or mot == "": 
+    if mot == "<end>" : 
+        print("enddd")
         break
-    text_input.append(mot)
-    print(mot)
+
     final_caption.append(mot)
 
 print("Description générée : " + " ".join(final_caption))
